@@ -18,7 +18,6 @@ function userReducer(user: User, action: Action) {
     }
 }
 
-
 export function UserProvider({children}: { children: ReactNode }) {
     const [user, userDispatcher] = useReducer(userReducer, null);
     return (<UserContext.Provider value={user}>
