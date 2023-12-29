@@ -6,7 +6,6 @@ import {auth} from "../firebase.ts";
 export function Header() {
 
     function  handleSignOut(){
-        alert('a')
             signOut(auth)
 
     }

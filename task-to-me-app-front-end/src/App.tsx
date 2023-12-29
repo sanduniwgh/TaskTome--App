@@ -6,6 +6,7 @@ import { Header } from "./header/Header.tsx";
 import { SignIn } from "./signin/SignIn.tsx";
 import { auth } from "./firebase.ts";
 import {Form} from "./form/Form.tsx";
+import {TaskProvider} from "./context/TaskContext.tsx";
 
 function App() {
   const [loader, setLoader] = useState(true);
@@ -33,7 +34,10 @@ function App() {
             user ?  // if (user)
                 (<>
                   <Header/>
-                  <Form/>
+                  <TaskProvider>
+                    <Form/>
+
+                  </TaskProvider>
                 </>)
                 :       // else
                 <SignIn/>

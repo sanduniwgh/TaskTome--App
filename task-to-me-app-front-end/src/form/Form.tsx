@@ -1,18 +1,31 @@
 import './Form.css'
 import {useUser} from "../context/UserContext.tsx";
 import React, {useRef, useState} from "react";
+import {TaskDTO} from "../dto/TaskDTO.ts";
+import {saveTask} from "../services/taskservices.tsx";
+import {useTaskDispatcher} from "../context/TaskContext.tsx";
 
 
 export function Form() {
 
     const txtRef = useRef<HTMLInputElement>(null);
     const[value, setValue] = useState("");
+    const taskDispatcher = useTaskDispatcher();
+    const user = useUser();
 
-    function handleSubmit(e: React.FormEvent){
+
+    function handleSubmit(e: React.FormEvent) {
         e.preventDefault();
-        if(value.trim()) return;
-
-
+        if (!value.trim()) return;
+        saveTask(new TaskDTO(null, value, null, user?.email!))
+            .then(task => {
+                taskDispatcher({type: 'add', task});
+                setValue("");
+                txtRef.current!.focus();
+            })
+            .catch(err => {
+                alert("Failed to save the task, try again!");
+            });
     }
 
     return (
@@ -22,7 +35,7 @@ export function Form() {
                    ref={txtRef}
                    value={value}
                    onChange={e => setValue(e.target.value)}
-                   placeholder="Write your tasks here"
+                   placeholder="Eg. Finish react to-do app"
                    type="text"/>
             <button className="btn btn-primary shadow-sm rounded-0">ADD</button>
         </form>
