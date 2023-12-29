@@ -5,6 +5,7 @@ import { Loader } from "./loader/Loader.tsx";
 import { Header } from "./header/Header.tsx";
 import { SignIn } from "./signin/SignIn.tsx";
 import { auth } from "./firebase.ts";
+import {Form} from "./form/Form.tsx";
 
 function App() {
   const [loader, setLoader] = useState(true);
@@ -32,7 +33,7 @@ function App() {
             user ?  // if (user)
                 (<>
                   <Header/>
-                  <h1>Hello</h1>
+                  <Form/>
                 </>)
                 :       // else
                 <SignIn/>
