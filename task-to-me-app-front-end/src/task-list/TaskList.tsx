@@ -1,15 +1,15 @@
-import {getAllTasks} from "../services/taskservices.tsx";
-import {useInsertionEffect} from "react";
-import {useTaskDispatcher, useTaskList} from "../context/TaskContext.tsx";
-import {useUser} from "../context/UserContext.tsx";
+import './TaskList.css';
 import {Task} from "../task/Task.tsx";
+import {useTaskDispatcher, useTaskList} from "../context/TaskContext.tsx";
+import {useEffect} from "react";
+import {useUser} from "../context/UserContext.tsx";
+import {getAllTasks} from "../services/taskservices.tsx";
 export function TaskList() {
-
     const taskList = useTaskList();
     const taskDispatcher = useTaskDispatcher();
     const user = useUser();
 
-    useInsertionEffect(() => {
+    useEffect(() => {
         getAllTasks(user!.email!).then(taskList => {
             taskDispatcher({type: 'set-list', taskList});
         }).catch(err => {
@@ -19,10 +19,11 @@ export function TaskList() {
             taskDispatcher({type: 'set-list', taskList: []});
         }
     }, []);
+
     return (
         <>
             {taskList.map(task =>
-            <Task key={task.id}{...task} />
+                <Task key={task.id} {...task} />
             )}
         </>
     );

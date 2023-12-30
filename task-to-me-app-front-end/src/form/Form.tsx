@@ -1,18 +1,15 @@
-import './Form.css'
-import {useUser} from "../context/UserContext.tsx";
+import './Form.css';
 import React, {useRef, useState} from "react";
+import {useTaskDispatcher} from "../context/TaskContext.tsx";
 import {TaskDTO} from "../dto/TaskDTO.ts";
 import {saveTask} from "../services/taskservices.tsx";
-import {useTaskDispatcher} from "../context/TaskContext.tsx";
-
+import {useUser} from "../context/UserContext.tsx";
 
 export function Form() {
-
-    const txtRef = useRef<HTMLInputElement>(null);
-    const[value, setValue] = useState("");
-    const taskDispatcher = useTaskDispatcher();
     const user = useUser();
-
+    const [value, setValue] = useState("");
+    const txtRef = useRef<HTMLInputElement>(null);
+    const taskDispatcher = useTaskDispatcher();
 
     function handleSubmit(e: React.FormEvent) {
         e.preventDefault();

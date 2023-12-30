@@ -1,4 +1,4 @@
-import {createContext, ReactNode, useContext, useReducer} from "react";
+import React, {createContext, ReactNode, useContext, useReducer} from "react";
 import {User} from "firebase/auth";
 
 type Action = {

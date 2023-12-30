@@ -1,18 +1,20 @@
-import React, { useEffect, useRef, useState } from "react";
-import { onAuthStateChanged } from "firebase/auth";
-import { useUserDispatcher } from "./context/UserContext.tsx";
-import { Loader } from "./loader/Loader.tsx";
-import { Header } from "./header/Header.tsx";
-import { SignIn } from "./signin/SignIn.tsx";
-import { auth } from "./firebase.ts";
+import './App.css'
+import {useEffect, useState} from "react";
+import {onAuthStateChanged} from 'firebase/auth';
+import {auth} from "./firebase.ts";
+import {useUser, useUserDispatcher} from "./context/UserContext.tsx";
+import {SignIn} from "./signin/SignIn.tsx";
+import {Loader} from "./loader/Loader.tsx";
+import {Header} from "./header/Header.tsx";
 import {Form} from "./form/Form.tsx";
-import {TaskProvider} from "./context/TaskContext.tsx";
+import {TaskProvider, useTaskDispatcher} from "./context/TaskContext.tsx";
+import {TaskList} from "./task-list/TaskList.tsx";
 
 function App() {
-  const [loader, setLoader] = useState(true);
-  const user= useRef();
-  const userDispatcher = useUserDispatcher();
 
+  const [loader, setLoader] = useState(true);
+  const user = useUser();
+  const userDispatcher = useUserDispatcher();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -25,18 +27,19 @@ function App() {
     });
     return () => unsubscribe();
   }, []);
+
   return (
       <>
-
         {loader ?   // if (loader)
             <Loader/>
             :           // else
+
             user ?  // if (user)
                 (<>
                   <Header/>
                   <TaskProvider>
                     <Form/>
-
+                    <TaskList/>
                   </TaskProvider>
                 </>)
                 :       // else
@@ -44,8 +47,6 @@ function App() {
         }
       </>
   )
-
-
 }
 
 export default App
